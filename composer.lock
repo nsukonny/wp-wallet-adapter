@@ -1,0 +1,66 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2e15000d4a9c7c75c440dde00cc89500",
+    "packages": [
+        {
+            "name": "nsukonny/n-framework",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nsukonny/n-framework.git",
+                "reference": "0bf3b1ade3fa5d046425325c6907b9e4f196da89"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nsukonny/n-framework/zipball/0bf3b1ade3fa5d046425325c6907b9e4f196da89",
+                "reference": "0bf3b1ade3fa5d046425325c6907b9e4f196da89",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "NSukonny",
+                    "email": "NSukonny@gmail.com"
+                }
+            ],
+            "description": "Framework for fast development WordPress plugins",
+            "keywords": [
+                "framework",
+                "nsukonny",
+                "php",
+                "plugin",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/nsukonny/n-framework/issues",
+                "source": "https://github.com/nsukonny/n-framework/tree/main"
+            },
+            "time": "2021-12-28T11:16:48+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "nsukonny/n-framework": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
