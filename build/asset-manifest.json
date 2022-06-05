@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/wp-content/plugins/wp-wallet-adapter/build/static/css/main.f7ee4a71.css",
+    "main.js": "/wp-content/plugins/wp-wallet-adapter/build/static/js/main.37212a92.js",
+    "static/js/23.2ad3e588.chunk.js": "/wp-content/plugins/wp-wallet-adapter/build/static/js/23.2ad3e588.chunk.js",
+    "static/js/507.16258c4f.chunk.js": "/wp-content/plugins/wp-wallet-adapter/build/static/js/507.16258c4f.chunk.js",
+    "static/js/300.9a72cdbb.chunk.js": "/wp-content/plugins/wp-wallet-adapter/build/static/js/300.9a72cdbb.chunk.js",
+    "static/js/863.f6cac7c1.chunk.js": "/wp-content/plugins/wp-wallet-adapter/build/static/js/863.f6cac7c1.chunk.js",
+    "static/js/21.54d0b4f3.chunk.js": "/wp-content/plugins/wp-wallet-adapter/build/static/js/21.54d0b4f3.chunk.js",
+    "static/js/683.aeded1d1.chunk.js": "/wp-content/plugins/wp-wallet-adapter/build/static/js/683.aeded1d1.chunk.js",
+    "static/js/331.b1e9e633.chunk.js": "/wp-content/plugins/wp-wallet-adapter/build/static/js/331.b1e9e633.chunk.js",
+    "index.html": "/wp-content/plugins/wp-wallet-adapter/build/index.html",
+    "main.f7ee4a71.css.map": "/wp-content/plugins/wp-wallet-adapter/build/static/css/main.f7ee4a71.css.map",
+    "main.37212a92.js.map": "/wp-content/plugins/wp-wallet-adapter/build/static/js/main.37212a92.js.map",
+    "23.2ad3e588.chunk.js.map": "/wp-content/plugins/wp-wallet-adapter/build/static/js/23.2ad3e588.chunk.js.map",
+    "507.16258c4f.chunk.js.map": "/wp-content/plugins/wp-wallet-adapter/build/static/js/507.16258c4f.chunk.js.map",
+    "300.9a72cdbb.chunk.js.map": "/wp-content/plugins/wp-wallet-adapter/build/static/js/300.9a72cdbb.chunk.js.map",
+    "863.f6cac7c1.chunk.js.map": "/wp-content/plugins/wp-wallet-adapter/build/static/js/863.f6cac7c1.chunk.js.map",
+    "683.aeded1d1.chunk.js.map": "/wp-content/plugins/wp-wallet-adapter/build/static/js/683.aeded1d1.chunk.js.map",
+    "331.b1e9e633.chunk.js.map": "/wp-content/plugins/wp-wallet-adapter/build/static/js/331.b1e9e633.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f7ee4a71.css",
+    "static/js/main.37212a92.js"
+  ]
+}
