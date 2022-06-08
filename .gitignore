@@ -1,2 +1,3 @@
 /wallet-adapter/*
 !/wallet-adapter/packages/starter/create-react-app-starter/src/
+/vendor
