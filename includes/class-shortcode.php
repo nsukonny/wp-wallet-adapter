@@ -5,7 +5,7 @@
  * @since 1.0.0
  */
 
-namespace Damax_Transfers;
+namespace WP_Wallet_Adapter;
 
 use NSukonny\NFramework\Singleton;
 

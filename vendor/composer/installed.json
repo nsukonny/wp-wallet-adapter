@@ -1,0 +1,54 @@
+{
+    "packages": [
+        {
+            "name": "nsukonny/n-framework",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nsukonny/n-framework.git",
+                "reference": "0bf3b1ade3fa5d046425325c6907b9e4f196da89"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nsukonny/n-framework/zipball/0bf3b1ade3fa5d046425325c6907b9e4f196da89",
+                "reference": "0bf3b1ade3fa5d046425325c6907b9e4f196da89",
+                "shasum": ""
+            },
+            "time": "2021-12-28T11:16:48+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "NSukonny",
+                    "email": "NSukonny@gmail.com"
+                }
+            ],
+            "description": "Framework for fast development WordPress plugins",
+            "keywords": [
+                "framework",
+                "nsukonny",
+                "php",
+                "plugin",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/nsukonny/n-framework/issues",
+                "source": "https://github.com/nsukonny/n-framework/tree/main"
+            },
+            "install-path": "../nsukonny/n-framework"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

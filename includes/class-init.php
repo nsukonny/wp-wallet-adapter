@@ -7,7 +7,6 @@
 
 namespace WP_Wallet_Adapter;
 
-use Damax_Transfers\Shortcode;
 use NSukonny\NFramework\Singleton;
 
 defined('ABSPATH') || exit;

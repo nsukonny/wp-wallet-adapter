@@ -1,0 +1,26 @@
+{
+    "name": "nsukonny/n-framework",
+    "description": "Framework for fast development WordPress plugins",
+    "keywords": [
+        "php",
+        "wordpress",
+        "plugin",
+        "framework",
+        "nsukonny"
+    ],
+    "type": "library",
+    "license": "AGPL-3.0-or-later",
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "NSukonny",
+            "email": "NSukonny@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
