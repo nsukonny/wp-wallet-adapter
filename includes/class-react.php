@@ -37,7 +37,7 @@ class React
      */
     public function parse_react_styles($hook)
     {
-        $react_app_build = constant(__NAMESPACE__ . '\URL') . 'build/';
+        $react_app_build = constant(__NAMESPACE__ . '\URL') . 'wallet-adapter/packages/starter/create-react-app-starter/build/';
         $manifest_url    = $react_app_build . 'asset-manifest.json';
         $request         = file_get_contents($manifest_url);
 
