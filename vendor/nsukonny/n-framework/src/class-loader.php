@@ -261,7 +261,7 @@ class Loader {
 				$slug,
 				constant( $namespace . '\URL' ) . $js_file,
 				array( 'jquery' ),
-				constant( $namespace . '\VERSION' )
+				time() //constant( $namespace . '\VERSION' )
 			);
 
 			wp_enqueue_script( $slug );

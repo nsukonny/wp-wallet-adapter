@@ -24,11 +24,17 @@ class Init
     public function init()
     {
         if (is_admin()) {
+            add_action('init_wp_wallet_adapter_admin', array(Auth::class, 'instance'));
+
+            do_action('init_wp_wallet_adapter_admin');
+
             return;
         }
 
+        add_action('init_wp_wallet_adapter', array(User::class, 'instance'));
         add_action('init_wp_wallet_adapter', array(Shortcode::class, 'instance'));
         add_action('init_wp_wallet_adapter', array(React::class, 'instance'));
+        add_action('init_wp_wallet_adapter', array(Auth::class, 'instance'));
 
         do_action('init_wp_wallet_adapter');
     }
