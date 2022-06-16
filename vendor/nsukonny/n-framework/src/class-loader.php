@@ -234,7 +234,7 @@ class Loader {
 				$slug,
 				constant( $namespace . '\URL' ) . $css_file,
 				array(),
-				constant( $namespace . '\VERSION' )
+				time()
 			);
 
 			return true;
