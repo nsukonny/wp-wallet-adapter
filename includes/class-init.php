@@ -25,6 +25,7 @@ class Init
     {
         if (is_admin()) {
             add_action('init_wp_wallet_adapter_admin', array(Auth::class, 'instance'));
+            add_action('init_wp_wallet_adapter_admin', array(Bids::class, 'instance'));
 
             do_action('init_wp_wallet_adapter_admin');
 
@@ -35,6 +36,7 @@ class Init
         add_action('init_wp_wallet_adapter', array(Shortcode::class, 'instance'));
         add_action('init_wp_wallet_adapter', array(React::class, 'instance'));
         add_action('init_wp_wallet_adapter', array(Auth::class, 'instance'));
+        add_action('init_wp_wallet_adapter', array(Bids::class, 'instance'));
 
         do_action('init_wp_wallet_adapter');
     }

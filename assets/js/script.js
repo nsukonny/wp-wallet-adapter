@@ -20,6 +20,12 @@
             });
         }
 
+        if(0 < $('.ask-connect-wallet').length) {
+            $('body').on('click', '.ask-connect-wallet', function (){
+               $('.App .wallet-adapter-button').trigger('click');
+            });
+        }
+
     });
 
 })(jQuery);
