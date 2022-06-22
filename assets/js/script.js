@@ -5,6 +5,8 @@
     $(document).ready(function () {
 
         let registerForm = $('#solbids-register');
+
+        registerForm.show();
         if (0 < registerForm.length) {
             $('body').on('click', '#solbids-register .submit', function () {
                 $('#solbids-register .form').submit();

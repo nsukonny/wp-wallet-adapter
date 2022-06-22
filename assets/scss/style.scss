@@ -151,6 +151,10 @@
             }
         }
     }
+
+    .solbids-error {
+        color: red;
+    }
 }
 
 .buy-bids-wrapper {
@@ -158,4 +162,23 @@
     justify-content: center;
     height: 40px;
     margin-top: 20px;
+}
+
+#wd_auction_bid_form_block .auction_form {
+    width: auto !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wallet-adapter-button-trigger,
+.auction_form .bid_button {
+    color: #fff !important;
+    background: rgb(229, 36, 117) !important;
+}
+
+.wallet-adapter-button-trigger:hover,
+.auction_form .bid_button:hover {
+    color: #fff !important;
+    background: rgb(209, 33, 100) !important;
 }

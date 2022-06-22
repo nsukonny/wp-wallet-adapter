@@ -46,19 +46,31 @@ class Auth
 
         if ($wallet && $key == $_REQUEST['key']) {
             if (is_user_logged_in()) {
-                $userdata          = get_userdata(get_current_user_id());
-                $is_another_wallet = isset($userdata['solana_gems_wallet']) && $userdata['solana_gems_wallet'] != $public_key;
-                if ($is_another_wallet) {
+                $user             = $this->user_by_wallet($wallet);
+                $user_gems_wallet = get_user_meta(get_current_user_id(), 'solana_gems_wallet', true);
+
+                // Disable redirect for logged in users
+                if ($user && ! empty($user_gems_wallet)) {
+                    wp_send_json_success(array('reload' => false));
+                }
+
+                // Wallet owner find and it not same with current user
+                if ($user && $user->ID != get_current_user_id()) {
                     $this->logout_user();
+                    $this->login_user($user);
+                }
+
+                // Wallet not found. We can link it with current user if wallet not filled early
+                if ( ! $user && empty($user_gems_wallet)) {
+                    $this->link_wallet_to_user($wallet);
+                }
+
+                // Log in Or register new user
+                if ( ! $user && ! empty($user_gems_wallet)) {
                     $user = $this->login_by_wallet($wallet);
                     if ( ! $user) {
                         $user = $this->register_by_wallet($wallet);
                     }
-                }
-
-                $is_empty_wallet = ! isset($userdata['solana_gems_wallet']) || empty($userdata['solana_gems_wallet']);
-                if ($is_empty_wallet) {
-                    $this->link_wallet_to_user($wallet);
                 }
             } else {
                 $user = $this->login_by_wallet($wallet);
@@ -117,6 +129,24 @@ class Auth
      */
     private function login_by_wallet($wallet) //TODO Make more strong security
     {
+        $user = $this->user_by_wallet($wallet);
+
+        if ($user) {
+            $this->login_user($user);
+        }
+
+        return $user;
+    }
+
+    /**
+     * Login to user account by his Solana string
+     *
+     * @param mixed $wallet
+     *
+     * @return WP_User|null
+     */
+    private function user_by_wallet($wallet): ?WP_User //TODO Make more strong security
+    {
         $users = get_users(
             array(
                 'meta_key'   => 'solana_gems_wallet',
@@ -126,8 +156,6 @@ class Auth
 
         if (0 < count($users)) {
             foreach ($users as $user) {
-                $this->login_user($user);
-
                 return $user;
             }
         }

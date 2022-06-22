@@ -5,11 +5,10 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import EmptyWrappers from "./components/EmptyWrappers";
 
-//const appAnchorElement = document.getElementById('wp-wallet-adapter-wrapper')
-const appAnchorElement = document.getElementById('root')
+const appAnchorElement = document.getElementById('wp-wallet-adapter-wrapper')
+//const appAnchorElement = document.getElementById('root')
 ReactDOM.render(
     <React.StrictMode>
-        <EmptyWrappers/>
         <App/>
     </React.StrictMode>,
     appAnchorElement

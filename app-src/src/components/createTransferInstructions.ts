@@ -1,6 +1,7 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token'
-import { AccountMeta, PublicKey, Signer, TransactionInstruction } from '@solana/web3.js'
-import BufferLayout from 'buffer-layout'
+import {TOKEN_PROGRAM_ID} from '@solana/spl-token'
+import {AccountMeta, PublicKey, Signer, TransactionInstruction} from '@solana/web3.js'
+import {blob, Layout, struct, u8} from '@solana/buffer-layout'
+
 import BN from 'bn.js'
 
 export enum TokenInstruction {
@@ -47,12 +48,13 @@ export function createTransferInstruction(
     multiSigners: Signer[] = [],
     programId = TOKEN_PROGRAM_ID
 ): TransactionInstruction {
-    const dataLayout = BufferLayout.struct([BufferLayout.u8('instruction'), BufferLayout.blob(8, 'amount')])
+    const bufferArray = [u8('instruction'), blob(8, 'amount')]
+    const dataLayout = struct(bufferArray as Layout<never>[])
 
     const keys = addSigners(
         [
-            { pubkey: source, isSigner: false, isWritable: true },
-            { pubkey: destination, isSigner: false, isWritable: true },
+            {pubkey: source, isSigner: false, isWritable: true},
+            {pubkey: destination, isSigner: false, isWritable: true},
         ],
         owner,
         multiSigners
@@ -67,17 +69,17 @@ export function createTransferInstruction(
         data
     )
 
-    return new TransactionInstruction({ keys, programId, data })
+    return new TransactionInstruction({keys, programId, data})
 }
 
 export function addSigners(keys: AccountMeta[], ownerOrAuthority: PublicKey, multiSigners: Signer[]): AccountMeta[] {
     if (multiSigners.length) {
-        keys.push({ pubkey: ownerOrAuthority, isSigner: false, isWritable: false })
+        keys.push({pubkey: ownerOrAuthority, isSigner: false, isWritable: false})
         for (const signer of multiSigners) {
-            keys.push({ pubkey: signer.publicKey, isSigner: true, isWritable: false })
+            keys.push({pubkey: signer.publicKey, isSigner: true, isWritable: false})
         }
     } else {
-        keys.push({ pubkey: ownerOrAuthority, isSigner: true, isWritable: false })
+        keys.push({pubkey: ownerOrAuthority, isSigner: true, isWritable: false})
     }
     return keys
 }
@@ -105,6 +107,7 @@ class TokenAmount extends BN {
     /**
      * Construct a TokenAmount from Buffer representation
      */
+    /*
     static fromBuffer(buffer: Buffer): TokenAmount {
         if (buffer.length !== 8) {
             throw new Error(`Invalid buffer length: ${buffer.length}`)
@@ -117,5 +120,5 @@ class TokenAmount extends BN {
                 .join(''),
             16
         )
-    }
+    }*/
 }

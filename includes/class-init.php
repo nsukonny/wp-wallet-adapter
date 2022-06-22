@@ -24,6 +24,7 @@ class Init
     public function init()
     {
         if (is_admin()) {
+            add_action('init_wp_wallet_adapter_admin', array(User::class, 'instance'));
             add_action('init_wp_wallet_adapter_admin', array(Auth::class, 'instance'));
             add_action('init_wp_wallet_adapter_admin', array(Bids::class, 'instance'));
 

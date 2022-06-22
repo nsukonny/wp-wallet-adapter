@@ -1,5 +1,5 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import {ConnectionProvider, WalletProvider} from '@solana/wallet-adapter-react';
+import { ConnectionProvider, useWallet, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import {
     GlowWalletAdapter,
@@ -9,25 +9,41 @@ import {
     TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
-import React, { FC, ReactNode, useMemo } from 'react';
-import {AddBuyBidsButton} from './components/BuyBids'
+import React, { FC, ReactNode, useMemo, useState } from 'react';
+import AddBuyBidsButtonComp, { AddBuyBidsButton } from './components/BuyBids'
+import LogInUser from "./components/Authorization";
+import { Button } from '@solana/wallet-adapter-react-ui/lib/types/Button';
 
 require('./App.css');
 require('@solana/wallet-adapter-react-ui/styles.css');
 
-const App: FC = () => {
+interface Props {
+    onSendSPLTransaction: AddBuyBidsButton
+}
+
+const BuyButton: FC<Props> = ({ onSendSPLTransaction }) => {
+    const { publicKey } = useWallet()
+    const [amount, setAmount] = useState(0);
+
+    return null;
+
     return (
-        <Context>
-            <Content />
-            <AddBuyBidsButton />
-        </Context>
-    );
-};
-export default App;
+        <form onSubmit={(e) => {
+            e.preventDefault();
+        }}>
+            <input type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
+            <button
+                type='submit'
+                onClick={() => publicKey && onSendSPLTransaction(publicKey?.toString(), 4)}>
+                Send SGEMS
+            </button>
+        </form>
+    )
+}
 
 const Context: FC<{ children: ReactNode }> = ({ children }) => {
     // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
-    const network = WalletAdapterNetwork.Devnet;
+    const network = WalletAdapterNetwork.Mainnet;
 
     // You can also provide a custom RPC endpoint.
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
@@ -62,3 +78,16 @@ const Content: FC = () => {
         </div>
     );
 };
+const App: FC = () => {
+
+    return (
+        <Context>
+            <Content />
+            <AddBuyBidsButtonComp  >
+                {(onSendSPLTransaction) => <BuyButton onSendSPLTransaction={onSendSPLTransaction} />}
+            </AddBuyBidsButtonComp>
+            <LogInUser />
+        </Context>
+    );
+};
+export default App;

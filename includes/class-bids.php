@@ -26,6 +26,8 @@ class Bids
      */
     public function init()
     {
+        add_filter('bid_text', array($this, 'bid_text'), 10, 2);
+
         add_action('wp_ajax_wp_wallet_adapter_buy_bids', array($this, 'buy_bids'));
         add_action('wp_ajax_nopriv_wp_wallet_adapter_buy_bids', array($this, 'buy_bids'));
     }
@@ -91,6 +93,21 @@ class Bids
         }
 
         return null;
+    }
+
+    /**
+     * Display Connect wallet text if user not logged in
+     *
+     * @param $text
+     * @param $product
+     */
+    public function bid_text($text, $product)
+    {
+        if ( ! is_user_logged_in()) {
+            return _('Connect Wallet');
+        }
+
+        return _('Bid Now');
     }
 
     /**

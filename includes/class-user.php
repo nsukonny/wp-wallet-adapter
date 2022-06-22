@@ -30,6 +30,46 @@ class User
         if ($this->is_not_registered()) {
             $this->registration_popup();
         }
+
+        add_action('show_user_profile', array($this, 'show_solana_wallet'));
+        add_action('edit_user_profile', array($this, 'show_solana_wallet'));
+        add_action('personal_options_update', array($this, 'save_solana_wallet'));
+        add_action('edit_user_profile_update', array($this, 'save_solana_wallet'));
+    }
+
+    /**
+     * Add row with user Solana wallet in user page
+     *
+     * @param $user
+     */
+    public function show_solana_wallet($user)
+    {
+        ?>
+        <table class="form-table">
+            <tr>
+                <th>
+                    <label for="solana_gems_wallet"><?php
+                        _e('Solana wallet'); ?></label>
+                </th>
+                <td>
+                    <input type="text" name="solana_gems_wallet" id="solana_gems_wallet" value="<?php
+                    echo esc_attr(get_user_meta($user->ID, 'solana_gems_wallet', true)); ?>" class="regular-text"/>
+                </td>
+            </tr>
+        </table>
+        <?php
+    }
+
+    /**
+     * Update changes user wallet
+     *
+     * @param $user_id
+     */
+    public function save_solana_wallet($user_id)
+    {
+        if (current_user_can('edit_user', $user_id)) {
+            update_user_meta($user_id, 'solana_gems_wallet', $_POST['solana_gems_wallet']);
+        }
     }
 
     /**
@@ -55,7 +95,7 @@ class User
         $user_id = get_current_user_id();
         $user    = get_userdata($user_id);
         ?>
-        <div id="solbids-register">
+        <div id="solbids-register" style="display: none;">
             <div class="reg-wrapper">
                 <header class="user__header"><?php
                     if (grbid_get_option('show_the_logo') == 'on' && grbid_get_option('logo_link') != '') { ?>
@@ -78,6 +118,14 @@ class User
                 </header>
 
                 <form class="form" method="post">
+                    <?php
+                    if (isset($_SESSION['register_error']) && ! empty($_SESSION['register_error'])) { ?>
+                        <div class="solbids-error">
+                            <?php echo esc_attr($_SESSION['register_error']); ?>
+                        </div>
+                    <?php
+                    } ?>
+
                     <div class="form__group">
                         <input type="text" placeholder="Username" name="user_name" value="<?php
                         echo esc_attr($user->display_name); ?>" class="form__input"/>
@@ -109,7 +157,7 @@ class User
      *
      * @return false
      */
-    private function save_userdata(): bool
+    private function save_userdata()
     {
         if ( ! isset($_REQUEST['user_name']) || ! isset($_REQUEST['user_email']) || ! is_user_logged_in()) {
             return false;
@@ -125,9 +173,15 @@ class User
             'display_name' => $user_name,
         );
 
-        update_user_meta($user_id, 'solbids_registered', time());
-
-        return wp_update_user($args);
+        $user = wp_update_user($args);
+        if (is_wp_error($user)) {
+            $_SESSION['register_error'] = $user->get_error_messages()[0];
+        } else {
+            if (isset($_SESSION['register_error']) && ! empty($_SESSION['register_error'])) {
+                unset($_SESSION['register_error']);
+            }
+            update_user_meta($user_id, 'solbids_registered', time());
+        }
     }
 
 }
