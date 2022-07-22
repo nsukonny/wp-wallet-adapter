@@ -266,6 +266,12 @@ class Loader {
 
 			wp_enqueue_script( $slug );
 
+            wp_localize_script( //TODO add this to repo
+                $slug,
+                $slug,
+                array('ajax_url' => admin_url('admin-ajax.php'))
+            );
+
 			return true;
 		}
 

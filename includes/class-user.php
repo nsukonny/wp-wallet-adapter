@@ -25,8 +25,6 @@ class User
      */
     public function init()
     {
-        $this->save_userdata();
-
         if ($this->is_not_registered() && ! is_admin()) {
             $this->registration_popup();
         }
@@ -35,6 +33,9 @@ class User
         add_action('edit_user_profile', array($this, 'show_solana_wallet'));
         add_action('personal_options_update', array($this, 'save_solana_wallet'));
         add_action('edit_user_profile_update', array($this, 'save_solana_wallet'));
+
+        add_action('wp_ajax_wp_wallet_adapter_validate', array($this, 'validate_registration'));
+        add_action('wp_ajax_nopriv_wp_wallet_adapter_validate', array($this, 'validate_registration'));
     }
 
     /**
@@ -70,6 +71,43 @@ class User
         if (current_user_can('edit_user', $user_id)) {
             update_user_meta($user_id, 'solana_gems_wallet', $_POST['solana_gems_wallet']);
         }
+    }
+
+    /**
+     * Validate DisplayName and Email
+     *
+     * @since 1.0.0
+     */
+    public function validate_registration()
+    {
+        $user_name = sanitize_text_field($_REQUEST['user_name']);
+        $email     = sanitize_email($_REQUEST['email']);
+
+        if (empty($user_name)) {
+            wp_send_json_error(array('user_name' => _('Username must be filled.')));
+        }
+
+        if (8 > mb_strlen($user_name) || 24 < mb_strlen($user_name)) {
+            wp_send_json_error(array('user_name' => _('The username must be from 8 and less than 24 symbols.')));
+        }
+
+        if ($this->is_user_exist('display_name', $user_name)) {
+            wp_send_json_error(array('user_name' => _('This Username is already in use. Please, pick another.')));
+        }
+
+        if (empty($email)) {
+            wp_send_json_error(array('email' => _('Email must be filled')));
+        }
+
+        if ($this->is_user_exist('user_email', $email)) {
+            wp_send_json_error(array('email' => _('This Email is already in use. Please, pick another.')));
+        }
+
+        if ( ! $this->save_userdata($user_name, $email)) {
+            wp_send_json_error(array('user_name' => _('Something wrong. Please, try again.')));
+        }
+
+        wp_send_json_success();
     }
 
     /**
@@ -118,14 +156,6 @@ class User
                 </header>
 
                 <form class="form" method="post" name="register_phantom_user">
-                    <?php
-                    if (isset($_SESSION['register_error']) && ! empty($_SESSION['register_error'])) { ?>
-                        <div class="solbids-error">
-                            <?php
-                            echo esc_attr($_SESSION['register_error']); ?>
-                        </div>
-                        <?php
-                    } ?>
 
                     <div class="form__group">
                         <input type="text" placeholder="Username" name="user_name" value="<?php
@@ -158,16 +188,10 @@ class User
      *
      * @return false
      */
-    private function save_userdata()
+    private function save_userdata($user_name, $user_email)
     {
-        if ( ! isset($_REQUEST['user_name']) || ! isset($_REQUEST['user_email']) || ! is_user_logged_in()) {
-            return false;
-        }
-
-        $user_name    = sanitize_text_field($_REQUEST['user_name']);
-        $user_email   = sanitize_email($_REQUEST['user_email']);
         $user_id      = get_current_user_id();
-        $max_username = 18;
+        $max_username = 24;
 
         if ($max_username < strlen($user_name)) {
             $user_name = mb_strcut($user_name, 0, $max_username, "UTF-8");
@@ -180,14 +204,27 @@ class User
         );
 
         $user = wp_update_user($args);
-        if (is_wp_error($user)) {
-            $_SESSION['register_error'] = $user->get_error_messages()[0];
-        } else {
-            if (isset($_SESSION['register_error']) && ! empty($_SESSION['register_error'])) {
-                unset($_SESSION['register_error']);
-            }
+        if ( ! is_wp_error($user)) {
             update_user_meta($user_id, 'solbids_registered', time());
+
+            return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Check if user with this username exist
+     *
+     * @return bool
+     */
+    private function is_user_exist($field, $val)
+    {
+        global $wpdb;
+
+        $users = $wpdb->get_results("SELECT user_email FROM $wpdb->users WHERE " . $field . " = '" . $val . "'");
+
+        return 0 !== count($users);
     }
 
 }
