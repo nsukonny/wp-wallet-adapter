@@ -1,6 +1,6 @@
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { ConnectionProvider, useWallet, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import {WalletAdapterNetwork} from '@solana/wallet-adapter-base';
+import {ConnectionProvider, useWallet, WalletProvider} from '@solana/wallet-adapter-react';
+import {WalletModalProvider, WalletMultiButton} from '@solana/wallet-adapter-react-ui';
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
@@ -8,11 +8,10 @@ import {
     SolflareWalletAdapter,
     TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
-import React, { FC, ReactNode, useMemo, useState } from 'react';
-import AddBuyBidsButtonComp, { AddBuyBidsButton } from './components/BuyBids'
+import {clusterApiUrl} from '@solana/web3.js';
+import React, {FC, ReactNode, useMemo, useState} from 'react';
+import AddBuyBidsButtonComp, {AddBuyBidsButton} from './components/BuyBids'
 import LogInUser from "./components/Authorization";
-import { Button } from '@solana/wallet-adapter-react-ui/lib/types/Button';
 
 require('./App.css');
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -21,8 +20,8 @@ interface Props {
     onSendSPLTransaction: AddBuyBidsButton
 }
 
-const BuyButton: FC<Props> = ({ onSendSPLTransaction }) => {
-    const { publicKey } = useWallet()
+const BuyButton: FC<Props> = ({onSendSPLTransaction}) => {
+    const {publicKey} = useWallet()
     const [amount, setAmount] = useState(0);
 
     return null;
@@ -31,7 +30,7 @@ const BuyButton: FC<Props> = ({ onSendSPLTransaction }) => {
         <form onSubmit={(e) => {
             e.preventDefault();
         }}>
-            <input type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
+            <input type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))}/>
             <button
                 type='submit'
                 onClick={() => publicKey && onSendSPLTransaction(publicKey?.toString(), 4)}>
@@ -41,7 +40,7 @@ const BuyButton: FC<Props> = ({ onSendSPLTransaction }) => {
     )
 }
 
-const Context: FC<{ children: ReactNode }> = ({ children }) => {
+const Context: FC<{ children: ReactNode }> = ({children}) => {
     // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
     const network = WalletAdapterNetwork.Mainnet;
 
@@ -56,7 +55,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
-            new SolflareWalletAdapter({ network }),
+            new SolflareWalletAdapter({network}),
             new TorusWalletAdapter(),
         ],
         [network]
@@ -72,9 +71,20 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const Content: FC = () => {
+
+    const {publicKey} = useWallet();
+
+    if (!publicKey) {
+        return (
+            <div className="App">
+                <WalletMultiButton children="Connect Wallet"/>
+            </div>
+        );
+    }
+
     return (
         <div className="App">
-            <WalletMultiButton />
+            <WalletMultiButton/>
         </div>
     );
 };
@@ -82,11 +92,11 @@ const App: FC = () => {
 
     return (
         <Context>
-            <Content />
-            <AddBuyBidsButtonComp  >
-                {(onSendSPLTransaction) => <BuyButton onSendSPLTransaction={onSendSPLTransaction} />}
+            <Content/>
+            <AddBuyBidsButtonComp>
+                {(onSendSPLTransaction) => <BuyButton onSendSPLTransaction={onSendSPLTransaction}/>}
             </AddBuyBidsButtonComp>
-            <LogInUser />
+            <LogInUser/>
         </Context>
     );
 };

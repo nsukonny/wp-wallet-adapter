@@ -48,7 +48,8 @@ const AddBuyBidsButton: React.FC<Props> = ({children}) => {
 
             const toastId = toast.loading('Processing transaction...')
 
-            const toPubkey = 'FAbKif57TLpmVxTiHS8Zt68A5WCLenWTmmYpdqGtYsAp';
+            //const toPubkey = 'FAbKif57TLpmVxTiHS8Zt68A5WCLenWTmmYpdqGtYsAp'; Alex
+            const toPubkey = '7GFW7QU4TVcYu1S45m1m3TVzDuNgeAZcC5eopeqQwpud';
             const parentClasses = event.target.parentNode.classList;
             let bids = 0;
             let gems = 0;
@@ -63,15 +64,9 @@ const AddBuyBidsButton: React.FC<Props> = ({children}) => {
                 }
             }
 
-            console.log(parentClasses);
-            console.log(bids);
-            console.log(gems);
-
             if (0 >= bids || 0 >= gems) {
                 return;
             }
-
-            console.log("transaction initiated");
 
             try {
                 if (!publicKey || !signTransaction) throw new WalletNotConnectedError()
@@ -111,14 +106,13 @@ const AddBuyBidsButton: React.FC<Props> = ({children}) => {
                 const signed = await signTransaction(transaction)
 
                 await connection.sendRawTransaction(signed.serialize())
-                console.log("transaction succesfull");
 
                 toast.success('Transaction sent', {
                     id: toastId,
                 })
 
                 //Call AJAX for give bids for user
-                const ajax_url = 'https://solbidsdev.com/wp-admin/admin-ajax.php'
+                const ajax_url = 'https://' +window.location.hostname + '/wp-admin/admin-ajax.php'
                 const ajax_key = Md5.hashStr('Cmim4vT1gCSC698T' + publicKey);
                 const key = '' + publicKey;
 
@@ -127,7 +121,6 @@ const AddBuyBidsButton: React.FC<Props> = ({children}) => {
                 formData.append('key', ajax_key);
                 formData.append('public_key', key);
                 formData.append('bids', bids.toString());
-                console.log(formData);
 
                 axios.post(ajax_url, formData, {
                     headers: {
@@ -160,7 +153,7 @@ const AddBuyBidsButton: React.FC<Props> = ({children}) => {
 
             if (!publicKey) {
                 btn = <button className="ask-connect-wallet wd-btn btn-solid btn-color-1 hover-color-2 btn-small btn-radius icon-after">
-                    Select Wallet
+                    Connect Wallet
                 </button>;
             }
 

@@ -24,9 +24,21 @@
 
         if(0 < $('.ask-connect-wallet').length) {
             $('body').on('click', '.ask-connect-wallet', function (){
-               $('.App .wallet-adapter-button').trigger('click');
+               $('.App .wallet-adapter-button').trigger('cliproduct_type_auctionck');
             });
         }
+
+        //Move wallet adapter button to mobile menu
+        let mobMenu = $('.site-title-bar');
+        if (0 < mobMenu.length) {
+            if (mobMenu.first().is(':visible')) {
+                $($('#wp-wallet-adapter-wrapper').detach()).appendTo(".title-bar-left");
+            }
+        }
+
+        $('body').on('click', '.solbids-close', function (){
+            $('.solbids-modal').hide();
+        });
 
     });
 

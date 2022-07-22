@@ -182,3 +182,26 @@
     color: #fff !important;
     background: rgb(209, 33, 100) !important;
 }
+
+.title-bar-left #wp-wallet-adapter-wrapper {
+    position: absolute;
+    right: 15px;
+
+    button {
+        padding: 10px;
+        height: 40px;
+        font-size: 13px;
+    }
+}
+
+.solbids-modal {
+    background: rgba(4,4,30,.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+}

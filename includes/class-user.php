@@ -27,7 +27,7 @@ class User
     {
         $this->save_userdata();
 
-        if ($this->is_not_registered()) {
+        if ($this->is_not_registered() && ! is_admin()) {
             $this->registration_popup();
         }
 
@@ -117,18 +117,19 @@ class User
                         ); ?></h1>
                 </header>
 
-                <form class="form" method="post">
+                <form class="form" method="post" name="register_phantom_user">
                     <?php
                     if (isset($_SESSION['register_error']) && ! empty($_SESSION['register_error'])) { ?>
                         <div class="solbids-error">
-                            <?php echo esc_attr($_SESSION['register_error']); ?>
+                            <?php
+                            echo esc_attr($_SESSION['register_error']); ?>
                         </div>
-                    <?php
+                        <?php
                     } ?>
 
                     <div class="form__group">
                         <input type="text" placeholder="Username" name="user_name" value="<?php
-                        echo esc_attr($user->display_name); ?>" class="form__input"/>
+                        echo esc_attr($user->display_name); ?>" class="form__input" maxlength="24"/>
                     </div>
 
                     <div class="form__group">
@@ -163,9 +164,14 @@ class User
             return false;
         }
 
-        $user_name  = sanitize_text_field($_REQUEST['user_name']);
-        $user_email = sanitize_email($_REQUEST['user_email']);
-        $user_id    = get_current_user_id();
+        $user_name    = sanitize_text_field($_REQUEST['user_name']);
+        $user_email   = sanitize_email($_REQUEST['user_email']);
+        $user_id      = get_current_user_id();
+        $max_username = 18;
+
+        if ($max_username < strlen($user_name)) {
+            $user_name = mb_strcut($user_name, 0, $max_username, "UTF-8");
+        }
 
         $args = array(
             'ID'           => $user_id,

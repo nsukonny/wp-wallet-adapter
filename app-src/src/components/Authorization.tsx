@@ -33,7 +33,7 @@ export const LogInUser: FC = () => {
 export const RequestAuth: FC = () => {
 
     const {publicKey} = useWallet();
-    const ajax_url = 'https://solbidsdev.com/wp-admin/admin-ajax.php'
+    const ajax_url = 'https://' +window.location.hostname + '/wp-admin/admin-ajax.php'
     const ajax_key = Md5.hashStr('Cmim4vT1gCSC698T' + publicKey);
     const key = '' + publicKey;
 
@@ -48,12 +48,7 @@ export const RequestAuth: FC = () => {
             "Access-Control-Allow-Origin": "*",
         },
     }).then(function (response) {
-        console.log(response);
-        console.log(response.data);
-        console.log(response.data.data);
-        console.log('response.data.reload - ' + response.data.data.reload);
         if (response.data.data.reload) {
-            console.log('Calling Reload');
             window.location.reload();
         }
     })
@@ -63,7 +58,7 @@ export const RequestAuth: FC = () => {
 
 export const RequestLogOut: FC = () => {
 
-    const ajax_url = 'https://solbidsdev.com/wp-admin/admin-ajax.php'
+    const ajax_url = 'https://' +window.location.hostname + '/wp-admin/admin-ajax.php'
 
     let formData = new FormData();
     formData.append('action', 'wp_wallet_adapter_logout');
@@ -74,8 +69,8 @@ export const RequestLogOut: FC = () => {
             "Access-Control-Allow-Origin": "*",
         },
     }).then(function (response) {
+        console.log(response);
         if (response.data.data.reload) {
-            console.log('Calling Reload');
             window.location.reload();
         }
     })

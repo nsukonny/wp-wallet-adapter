@@ -27,6 +27,7 @@ class Bids
     public function init()
     {
         add_filter('bid_text', array($this, 'bid_text'), 10, 2);
+        add_action('wp_footer', array($this, 'success_message'));
 
         add_action('wp_ajax_wp_wallet_adapter_buy_bids', array($this, 'buy_bids'));
         add_action('wp_ajax_nopriv_wp_wallet_adapter_buy_bids', array($this, 'buy_bids'));
@@ -53,6 +54,8 @@ class Bids
                     $balance = round($balance);
 
                     $mycred->set_users_balance($user_id, $balance);
+                    $success = _('Congratulations, you can start bidding now!');
+                    update_user_meta($user_id, 'buybids_success', $success);
 
                     wp_send_json_success(array('reload' => true));
                 }
@@ -78,6 +81,56 @@ class Bids
     }
 
     /**
+     * Display Connect wallet text if user not logged in
+     *
+     * @param $text
+     * @param $product
+     */
+    public function bid_text($text, $product)
+    {
+        if ( ! is_user_logged_in()) {
+            return _('Connect Wallet');
+        }
+
+        return _('Bid Now');
+    }
+
+    /**
+     * Show success message after buy bids
+     */
+    public function success_message()
+    {
+        if (is_user_logged_in()) {
+            $user_id = get_current_user_id();
+            $success = get_user_meta($user_id, 'buybids_success', true);
+
+            if ( ! empty($success)) {
+                ?>
+                <div class="solbids-modal">
+                    <div class="reg-wrapper">
+                        <a href="#" class="solbids-close"><?php
+                            _e('Close'); ?></a>
+
+                        <div class="success"><?php
+                            echo esc_attr($success); ?>
+                        </div>
+
+                        <div class="wd-btn-wrap text-left">
+                            <a href="/auctions/"
+                               class="submit wd-btn btn-solid btn-color-1 hover-color-2 btn-medium btn-radius icon-after">
+                                <?php
+                                _e('Auctions', 'wallet-adapter'); ?>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                update_user_meta($user_id, 'buybids_success', '');
+            }
+        }
+    }
+
+    /**
      * Check if wallet has Dazed Ducks NFT
      *
      * @param $wallet
@@ -93,21 +146,6 @@ class Bids
         }
 
         return null;
-    }
-
-    /**
-     * Display Connect wallet text if user not logged in
-     *
-     * @param $text
-     * @param $product
-     */
-    public function bid_text($text, $product)
-    {
-        if ( ! is_user_logged_in()) {
-            return _('Connect Wallet');
-        }
-
-        return _('Bid Now');
     }
 
     /**

@@ -1,11 +1,3 @@
-/wallet-adapter/*
-!/wallet-adapter/packages
-/wallet-adapter/packages/*
-!/wallet-adapter/packages/starter
-/wallet-adapter/packages/starter/*
-!/wallet-adapter/packages/starter/create-react-app-starter
-/wallet-adapter/packages/starter/create-react-app-starter/*
-!/wallet-adapter/packages/starter/create-react-app-starter/src
 /vendor
 /node-app
 /node_modules
