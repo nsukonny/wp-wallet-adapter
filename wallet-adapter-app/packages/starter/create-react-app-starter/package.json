@@ -1,6 +1,6 @@
 {
     "private": true,
-    "homepage": "./",
+    "homepage": "/wp-content/plugins/wp-wallet-adapter/wallet-adapter-app/packages/starter/create-react-app-starter/build/",
     "name": "@solana/wallet-adapter-create-react-app-starter",
     "version": "0.1.0",
     "dependencies": {
